@@ -19,7 +19,7 @@ export { createOrder, clearOrder } from './orderSlice';
 
 export { fetchFeeds, setFeeds } from './feedSlice';
 
-export { fetchOrders, setOrders } from './ordersSlice';
+export { fetchOrders, fetchOrderByNumber, setOrders } from './ordersSlice';
 
 export {
   registerUser,
