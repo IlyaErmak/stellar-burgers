@@ -1,14 +1,25 @@
 import { FC, memo } from 'react';
 import { useLocation } from 'react-router-dom';
+import { useDispatch } from '../../services/store';
+import { v4 as uuidv4 } from 'uuid';
 
 import { BurgerIngredientUI } from '@ui';
 import { TBurgerIngredientProps } from './type';
+import { addBun, addIngredient } from '@slices';
 
 export const BurgerIngredient: FC<TBurgerIngredientProps> = memo(
   ({ ingredient, count }) => {
     const location = useLocation();
+    const dispatch = useDispatch();
 
-    const handleAdd = () => {};
+    const handleAdd = () => {
+      const ingredientWithId = { ...ingredient, id: uuidv4() };
+      if (ingredient.type === 'bun') {
+        dispatch(addBun(ingredientWithId));
+      } else {
+        dispatch(addIngredient(ingredientWithId));
+      }
+    };
 
     return (
       <BurgerIngredientUI
