@@ -65,28 +65,29 @@ describe('Конструктор бургера', () => {
       cy.contains('Краторная булка N-200i').parent().parent().find('a').click();
 
       // Проверяем, что модальное окно открылось
-      cy.contains('Детали ингредиента').should('be.visible');
-      cy.contains('Краторная булка N-200i').should('be.visible');
+      cy.get('[data-cy=modal]').should('be.visible');
+      cy.get('[data-cy=modal]').contains('Детали ингредиента').should('be.visible');
+      cy.get('[data-cy=modal]').contains('Краторная булка N-200i').should('be.visible');
     });
 
     it('должен закрыть модальное окно при клике на крестик', () => {
       // Открываем модальное окно
       cy.contains('Краторная булка N-200i').parent().parent().find('a').click();
-      cy.contains('Детали ингредиента').should('be.visible');
+      cy.get('[data-cy=modal]').should('be.visible');
 
       // Закрываем через крестик (кнопка с CloseIcon)
-      cy.get('button[type="button"]').last().click();
-      cy.contains('Детали ингредиента').should('not.exist');
+      cy.get('[data-cy=modal-close-button]').click();
+      cy.get('[data-cy=modal]').should('not.exist');
     });
 
     it('должен закрыть модальное окно при клике на оверлей', () => {
       // Открываем модальное окно
       cy.contains('Краторная булка N-200i').parent().parent().find('a').click();
-      cy.contains('Детали ингредиента').should('be.visible');
+      cy.get('[data-cy=modal]').should('be.visible');
 
       // Кликаем на оверлей (вне модального окна)
       cy.get('body').click(500, 100);
-      cy.contains('Детали ингредиента').should('not.exist');
+      cy.get('[data-cy=modal]').should('not.exist');
     });
 
     it('должен отображать данные выбранного ингредиента в модальном окне', () => {
@@ -98,8 +99,9 @@ describe('Конструктор бургера', () => {
         .click();
 
       // Проверяем содержимое модального окна
-      cy.contains('Детали ингредиента').should('be.visible');
-      cy.contains('Биокотлета из марсианской Магнолии').should('be.visible');
+      cy.get('[data-cy=modal]').should('be.visible');
+      cy.get('[data-cy=modal]').contains('Детали ингредиента').should('be.visible');
+      cy.get('[data-cy=modal]').contains('Биокотлета из марсианской Магнолии').should('be.visible');
     });
   });
 
@@ -223,11 +225,16 @@ describe('Конструктор бургера', () => {
       });
 
       // Проверяем, что модальное окно открылось с номером заказа
-      cy.contains('12345', { timeout: 5000 }).should('be.visible');
-      cy.contains('идентификатор заказа').should('be.visible');
+      cy.get('[data-cy=modal]', { timeout: 5000 }).should('be.visible');
+      cy.get('[data-cy=modal]')
+        .find('[data-cy=order-number]', { timeout: 5000 })
+        .should('be.visible');
+      cy.get('[data-cy=modal]')
+        .find('[data-cy=order-number]')
+        .should('contain', '12345');
 
       // Закрываем модальное окно
-      cy.get('button[type="button"]').last().click();
+      cy.get('[data-cy=modal-close-button]').click();
 
       // Проверяем, что конструктор пуст
       cy.contains('Выберите булки').should('exist');
