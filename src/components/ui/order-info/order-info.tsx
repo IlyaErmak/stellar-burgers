@@ -13,6 +13,7 @@ export const OrderInfoUI: FC<OrderInfoUIProps> = memo(({ orderInfo }) => (
   <div className={styles.wrap}>
     <span
       className={`text text_type_digits-default pb-10 pt-10 ${styles.number}`}
+      data-cy='order-number'
     >
       #{String(orderInfo.number).padStart(6, '0')}
     </span>
