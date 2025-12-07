@@ -17,9 +17,15 @@ describe('Конструктор бургера', () => {
         .contains('Добавить')
         .click();
 
-      // Проверяем, что булка появилась в конструкторе (верх и низ)
-      cy.contains('Краторная булка N-200i (верх)').should('exist');
-      cy.contains('Краторная булка N-200i (низ)').should('exist');
+      // Проверяем, что булка появилась именно в конструкторе (верх и низ)
+      cy.get('[data-cy=constructor]').within(() => {
+        cy.get('[data-cy=constructor-bun-top]').contains(
+          'Краторная булка N-200i (верх)'
+        );
+        cy.get('[data-cy=constructor-bun-bottom]').contains(
+          'Краторная булка N-200i (низ)'
+        );
+      });
     });
 
     it('должен добавить начинку в конструктор', () => {
@@ -31,8 +37,10 @@ describe('Конструктор бургера', () => {
         .contains('Добавить')
         .click();
 
-      // Проверяем, что начинка появилась в конструкторе
-      cy.contains('Биокотлета из марсианской Магнолии').should('exist');
+      // Проверяем, что начинка появилась именно в списке конструктора
+      cy.get('[data-cy=constructor-ingredients]')
+        .contains('Биокотлета из марсианской Магнолии')
+        .should('exist');
     });
 
     it('должен добавить булку и начинку в конструктор', () => {
@@ -52,10 +60,18 @@ describe('Конструктор бургера', () => {
         .contains('Добавить')
         .click();
 
-      // Проверяем наличие всех элементов
-      cy.contains('Краторная булка N-200i (верх)').should('exist');
-      cy.contains('Краторная булка N-200i (низ)').should('exist');
-      cy.contains('Биокотлета из марсианской Магнолии').should('exist');
+      // Проверяем наличие всех элементов именно в конструкторе
+      cy.get('[data-cy=constructor]').within(() => {
+        cy.get('[data-cy=constructor-bun-top]').contains(
+          'Краторная булка N-200i (верх)'
+        );
+        cy.get('[data-cy=constructor-bun-bottom]').contains(
+          'Краторная булка N-200i (низ)'
+        );
+        cy.get('[data-cy=constructor-ingredients]')
+          .contains('Биокотлета из марсианской Магнолии')
+          .should('exist');
+      });
     });
   });
 
